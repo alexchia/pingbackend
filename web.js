@@ -83,6 +83,7 @@ app.get('/return_user_data', function(req, res) {
           console.log(body); // TODO - write to mongo
           // var user_data = UserData({});
           // user_data.save();
+          res.redirect("www.gotofail.co");
         }
         else {
           console.log(error);
