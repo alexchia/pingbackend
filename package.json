@@ -1,0 +1,16 @@
+{
+  "name": "PingBackend",
+  "version": "0.0.0",
+  "description": "",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": "Alexander Chia",
+  "license": "BSD",
+  "dependencies": {
+    "express": "~3.4.8",
+    "logfmt": "~0.21.0"
+  }
+}
