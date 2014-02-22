@@ -32,7 +32,9 @@ app.get('/linkedin_auth', function(req, res) {
           if (!error && response.statusCode == 200) {
               console.log(body);
               var pingJson = JSON.parse(body);
-              res.redirect("pingme://linkedin_auth?" + pingJson.access_token);
+              console.log("auth token: " + pingJson.access_token)
+              res.redirect("www.google.com");
+              //res.redirect("pingme://linkedin_auth?" + pingJson.access_token);
           } else {
             console.log(error);
             console.log(response);
