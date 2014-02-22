@@ -1,9 +1,32 @@
-// web.js
+// requirements
+
 var express = require("express");
 var logfmt = require("logfmt");
 var http = require("http");
 var request = require("request");
+var mongoose = require('mongoose');
 var app = express();
+
+// mongo & schemas
+
+mongoose.connect(process.env.MONGOHQ_URL);
+
+var Schema = mongoose.Schema;
+var userSchema = new Schema({
+  id: String,
+  firstName: String,
+  lastName: String,
+  companyName: String,
+  industry: String,
+  position: String,
+  homeLocation: String,
+  profilePicture: String // URL to picture
+});
+
+var UserData = mongoose.model('UserData', userSchema);
+
+
+// routes
 
 app.use(logfmt.requestLogger());
 
@@ -53,7 +76,19 @@ app.get('/return_user_data', function(req, res) {
     var access_token = req.query.AccessToken;
     var data_requests = "/v1/people/~:(id,firstName,lastName,email-address,picture-url,skills,positions,industry,num-connections)";
     var format = "json";
-    res.redirect("https://api.linkedin.com" + data_requests + "?" + "oauth2_access_token=" + access_token + "&format=" + format);
+    request.get("https://api.linkedin.com" + data_requests + "?"
+        + "oauth2_access_token=" + access_token + "&format=" + format,
+      function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+          console.log(body); // TODO - write to mongo
+          // var user_data = UserData({});
+          // user_data.save();
+        }
+        else {
+          console.log(error);
+        }
+      }
+    );
   }
 });
 
