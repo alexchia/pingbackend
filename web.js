@@ -81,11 +81,31 @@ app.get('/return_user_data', function(req, res) {
       function(error, response, body) {
         if (!error && response.statusCode == 200) {
           body = JSON.parse(body);
-          console.log(body.firstName);
-          console.log(body.lastName);
-          // var user_data = UserData({});
-          // user_data.save();
-          res.redirect("http://www.gotofail.co");
+
+          user = new UserData({
+            id: body.id,
+            firstName: body.firstName,
+            lastName: body.lastName,
+            companyName: body.companyName,
+            industry: body.industry,
+            position: body.position,
+            homeLocation: body.homeLocation,
+            profilePicture: body.profilePicture,
+          });
+
+          user.save(function(err) {
+            var msg;
+            if (err) {
+              msg = 'Writing: ' + body.firstName + ' ' + body.lastName;
+            } else {
+              msg = 'ERROR: ' + err;
+            }
+            console.log(msg);
+            res.send(msg);
+          });
+
+          // TODO - redirect to something else
+          // res.redirect("http://www.gotofail.co");
         }
         else {
           console.log(error);
