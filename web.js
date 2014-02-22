@@ -23,6 +23,7 @@ app.get('/linkedin_auth', function(req, res) {
     request.post(oauth_url,
       { form: {
         grant_type: 'authorization_code',
+        code: code,
         redirect_uri: 'http://pingbackend.herokuapp.com/linkedin_auth',
         client_id: LINKEDIN_API_KEY,
         client_secret: LINKEDIN_SECRET_KEY
@@ -32,7 +33,12 @@ app.get('/linkedin_auth', function(req, res) {
               console.log(body);
               var pingJson = JSON.parse(body);
               res.redirect("pingme://linkedin_auth?" + pingJson.access_token);
+          } else {
+            console.log(error);
+            console.log(response);
+            res.send("Error: " + error);
           }
+
       }
     );
   }
