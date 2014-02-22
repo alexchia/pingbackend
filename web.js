@@ -53,7 +53,7 @@ app.get('/return_user_data', function(req, res) {
     var access_token = req.query.AccessToken;
     var data_requests = "/v1/people/~:(id,firstName,lastName,email-address,picture-url,skills,positions,industry,num-connections)";
     var format = "json";
-    res.redirect("https:https://api.linkedin.com" + data_requests + "?" + "oauth2_access_token=" + access_token + "&format=" + format);
+    res.redirect("https://api.linkedin.com" + data_requests + "?" + "oauth2_access_token=" + access_token + "&format=" + format);
   }
 });
 
