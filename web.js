@@ -80,10 +80,12 @@ app.get('/return_user_data', function(req, res) {
         + "oauth2_access_token=" + access_token + "&format=" + format,
       function(error, response, body) {
         if (!error && response.statusCode == 200) {
-          console.log(body); // TODO - write to mongo
+          body = JSON.parse(body);
+          console.log(body.firstName);
+          console.log(body.lastName);
           // var user_data = UserData({});
           // user_data.save();
-          res.redirect("www.gotofail.co");
+          res.redirect("http://www.gotofail.co");
         }
         else {
           console.log(error);
