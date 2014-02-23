@@ -77,8 +77,11 @@ var getData = function(req, res, access_token) {
     var data_requests = "/v1/people/~:(id,firstName,lastName,email-address,picture-url,skills,positions,industry,num-connections)";
     var format = "json";
     console.log("retrieving data from linkedin");
-    request.get("https://api.linkedin.com" + data_requests + "?"
-        + "oauth2_access_token=" + access_token + "&format=" + format,
+    var linkedin_url = "https://api.linkedin.com" + data_requests + "?"
+        + "oauth2_access_token=" + access_token + "&format=" + format;
+
+    console.log("linkedin_url = " + linkedin_url);
+    request.get(linkedin_url,
       function(error, response, body) {
         if (!error && response.statusCode == 200) {
           // res.send(body);
