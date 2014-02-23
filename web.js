@@ -81,7 +81,7 @@ app.get('/return_user_data', function(req, res) {
         + "oauth2_access_token=" + access_token + "&format=" + format,
       function(error, response, body) {
         if (!error && response.statusCode == 200) {
-          res.send(body);
+          // res.send(body);
           body = JSON.parse(body);
           first = body.positions.values[0];
 
@@ -131,7 +131,7 @@ app.get('/user/:user', function(req, res) {
   if (req.query.error) {
     res.send("Error: " + req.query.error_description);
   } else {
-    res.send(req.user);
+    res.send(req.params.user);
   }
 });
 
