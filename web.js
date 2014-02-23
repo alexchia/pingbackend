@@ -89,21 +89,28 @@ app.get('/return_user_data', function(req, res) {
           UserData.findOne({id: body.id}, function(err, u) {
             console.log(u);
 
-            user = new UserData({
-              accessToken: access_token,
-              id: body.id,
-              firstName: body.firstName,
-              lastName: body.lastName,
-              companyName: first.company.name,
-              industry: body.industry,
-              position: first.title,
-              // homeLocation: body.homeLocation,
-              profilePicture: body.pictureUrl,
-            });
+            if (!u) {
+              user = new UserData({
+                accessToken: access_token,
+                id: body.id,
+                firstName: body.firstName,
+                lastName: body.lastName,
+                companyName: first.company.name,
+                industry: body.industry,
+                position: first.title,
+                // homeLocation: body.homeLocation,
+                profilePicture: body.pictureUrl,
+              });
+            }
+            else {
+              user = u;
+            }
+            /*
             if (u) {
               // overwrite if exists
               user._id = u._id;
             }
+            */
 
             user.save(function(err) {
               var msg;
