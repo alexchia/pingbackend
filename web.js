@@ -13,6 +13,7 @@ mongoose.connect(process.env.MONGOHQ_URL);
 
 var Schema = mongoose.Schema;
 var userSchema = new Schema({
+  accessToken: String,
   id: String,
   firstName: String,
   lastName: String,
@@ -85,6 +86,7 @@ app.get('/return_user_data', function(req, res) {
           first = body.positions.values[0];
 
           user = new UserData({
+            accessToken: access_token,
             id: body.id,
             firstName: body.firstName,
             lastName: body.lastName,
@@ -95,6 +97,11 @@ app.get('/return_user_data', function(req, res) {
             profilePicture: body.pictureUrl,
           });
 
+          UserData.findOne({id: body.id}, function(err, u) {
+            console.log(u);
+          });
+
+/*
           user.save(function(err) {
             var msg;
             if (!err) {
@@ -105,9 +112,7 @@ app.get('/return_user_data', function(req, res) {
             console.log(msg);
             res.send(String(body) + '\n' + msg);
           });
-
-          // TODO - redirect to something else
-          // res.redirect("http://www.gotofail.co");
+*/
         }
         else {
           console.log(error);
