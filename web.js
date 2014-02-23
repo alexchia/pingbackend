@@ -57,7 +57,7 @@ app.get('/linkedin_auth', function(req, res) {
               console.log(body);
               var pingJson = JSON.parse(body);
               console.log("auth token: " + pingJson.access_token);
-              res.redirect("/return_user_data?" + "AccessToken=" + pingJson.access_token);
+              getData(req, res, pingJson.access_token);
               //res.redirect("pingme://linkedin_auth?" + pingJson.access_token);
           } else {
             console.log(error);
@@ -70,11 +70,10 @@ app.get('/linkedin_auth', function(req, res) {
   }
 });
 
-app.get('/return_user_data', function(req, res) {
+var getData = function(req, res, access_token) {
   if (req.query.error) {
     res.send("Error: " + req.query.error_description);
   } else {
-    var access_token = req.query.AccessToken;
     var data_requests = "/v1/people/~:(id,firstName,lastName,email-address,picture-url,skills,positions,industry,num-connections)";
     var format = "json";
     request.get("https://api.linkedin.com" + data_requests + "?"
@@ -133,7 +132,7 @@ app.get('/return_user_data', function(req, res) {
       }
     );
   }
-});
+};
 
 app.get('/user/:user', function(req, res) {
   if (req.query.error) {
