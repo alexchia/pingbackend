@@ -9,7 +9,8 @@ var app = express();
 
 // mongo & schemas
 
-mongoose.connect(process.env.MONGOHQ_URL);
+//mongoose.connect(process.env.MONGOHQ_URL);
+mongoose.connect("mongodb://heroku:884b614228b90fe6148ab378b08c5c1a@troup.mongohq.com:10063/app22432022");
 
 var Schema = mongoose.Schema;
 var userSchema = new Schema({
@@ -48,7 +49,7 @@ app.get('/linkedin_auth', function(req, res) {
       { form: {
         grant_type: 'authorization_code',
         code: code,
-        redirect_uri: 'http://pingbackend.herokuapp.com/linkedin_auth',
+        redirect_uri: 'http://10.60.4.239:5000/linkedin_auth',
         client_id: LINKEDIN_API_KEY,
         client_secret: LINKEDIN_SECRET_KEY
        } },
@@ -56,6 +57,7 @@ app.get('/linkedin_auth', function(req, res) {
           if (!error && response.statusCode == 200) {
               console.log(body);
               var pingJson = JSON.parse(body);
+              console.log(pingJson);
               console.log("auth token: " + pingJson.access_token);
               getData(req, res, pingJson.access_token);
               //res.redirect("pingme://linkedin_auth?" + pingJson.access_token);
