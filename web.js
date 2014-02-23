@@ -95,7 +95,7 @@ app.get('/return_user_data', function(req, res) {
 
           user.save(function(err) {
             var msg;
-            if (err) {
+            if (!err) {
               msg = 'Writing: ' + body.firstName + ' ' + body.lastName;
             } else {
               msg = 'ERROR: ' + err;
