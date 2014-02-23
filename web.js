@@ -49,7 +49,7 @@ app.get('/linkedin_auth', function(req, res) {
       { form: {
         grant_type: 'authorization_code',
         code: code,
-        redirect_uri: 'http://10.60.4.239:5000/linkedin_auth',
+        redirect_uri: 'http://localhost:5000/linkedin_auth',
         client_id: LINKEDIN_API_KEY,
         client_secret: LINKEDIN_SECRET_KEY
        } },
@@ -152,6 +152,37 @@ app.get('/user/:user', function(req, res) {
     UserData.findOne({id: req.params.user}, function(err, u) {
       if (!err) {
         if (u) {
+          res.json(u);
+        }
+      }
+      else {
+        console.log(err);
+      }
+      console.log(u);
+    });
+  }
+});
+
+app.get('/list_users', function(req, res) {
+  if (req.query.error) {
+    res.send("Error: " + req.query.error_description);
+  } else {
+    UserData.find({}, function(err, u) {
+      if (!err) {
+        if (u) {
+          for (var i = 0; i < u.length; i++) {
+            // console.log(u[i]);
+            u[i] = {
+              "name": u[i].firstName + " " + u[i].lastName,
+              "picture_url": u[i].profilePicture
+            };
+            /*
+            for (var key in u[i]) {
+              if (key != 'firstName')
+              delete u[i][key];
+            }
+            */
+          }
           res.json(u);
         }
       }
