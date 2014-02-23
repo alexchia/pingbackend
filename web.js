@@ -60,8 +60,8 @@ app.get('/linkedin_auth', function(req, res) {
               getData(req, res, pingJson.access_token);
               //res.redirect("pingme://linkedin_auth?" + pingJson.access_token);
           } else {
-            console.log(error);
-            console.log(response);
+            console.log("Error: " + error);
+            console.log("Resp: " + response);
             res.send("Error: " + error);
           }
 
@@ -76,6 +76,7 @@ var getData = function(req, res, access_token) {
   } else {
     var data_requests = "/v1/people/~:(id,firstName,lastName,email-address,picture-url,skills,positions,industry,num-connections)";
     var format = "json";
+    console.log("retrieving data from linkedin");
     request.get("https://api.linkedin.com" + data_requests + "?"
         + "oauth2_access_token=" + access_token + "&format=" + format,
       function(error, response, body) {
@@ -84,7 +85,7 @@ var getData = function(req, res, access_token) {
           body = JSON.parse(body);
           first = body.positions.values[0];
 
-
+          console.log("finding userdata");
           UserData.findOne({id: body.id}, function(err, u) {
             console.log(u);
 
@@ -104,6 +105,8 @@ var getData = function(req, res, access_token) {
             else {
               user = u;
             }
+
+            console.log(user);
             /*
             if (u) {
               // overwrite if exists
@@ -118,6 +121,7 @@ var getData = function(req, res, access_token) {
                 res.redirect("pingme://" + body.id);
               } else {
                 msg = 'ERROR: ' + err;
+                console.log(err);
                 res.send(msg);
               }
               console.log(msg);
