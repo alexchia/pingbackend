@@ -101,7 +101,7 @@ app.get('/return_user_data', function(req, res) {
               msg = 'ERROR: ' + err;
             }
             console.log(msg);
-            res.send(body + '\n' + msg);
+            res.send(String(body) + '\n' + msg);
           });
 
           // TODO - redirect to something else
