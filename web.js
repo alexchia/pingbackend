@@ -31,7 +31,7 @@ var UserData = mongoose.model('UserData', userSchema);
 
 app.use(logfmt.requestLogger());
 
-app.get('/', function(req, res) {
+app.get('/test', function(req, res) {
   res.redirect("https://www.linkedin.com/uas/oauth2/authorization?response_type=code&client_id=75wd2l0scscwof&scope=r_basicprofile&state=asdf55&redirect_uri=http://pingbackend.herokuapp.com/linkedin_auth");
 });
 
@@ -109,14 +109,15 @@ app.get('/return_user_data', function(req, res) {
               var msg;
               if (!err) {
                 msg = 'Writing: ' + body.firstName + ' ' + body.lastName;
+                res.redirect("pingme://" + body.id);
               } else {
                 msg = 'ERROR: ' + err;
+                res.send(msg);
               }
               console.log(msg);
               // res.send(String(body) + '\n' + msg);
             });
 
-            res.redirect("pingme://" + body.id);
           });
         }
         else {
