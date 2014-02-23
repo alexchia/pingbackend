@@ -80,6 +80,7 @@ app.get('/return_user_data', function(req, res) {
         + "oauth2_access_token=" + access_token + "&format=" + format,
       function(error, response, body) {
         if (!error && response.statusCode == 200) {
+          res.send(body);
           body = JSON.parse(body);
 
           user = new UserData({
