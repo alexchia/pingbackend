@@ -85,34 +85,38 @@ app.get('/return_user_data', function(req, res) {
           body = JSON.parse(body);
           first = body.positions.values[0];
 
-          user = new UserData({
-            accessToken: access_token,
-            id: body.id,
-            firstName: body.firstName,
-            lastName: body.lastName,
-            companyName: first.company.name,
-            industry: body.industry,
-            position: first.title,
-            // homeLocation: body.homeLocation,
-            profilePicture: body.pictureUrl,
-          });
 
           UserData.findOne({id: body.id}, function(err, u) {
             console.log(u);
-          });
 
-/*
-          user.save(function(err) {
-            var msg;
-            if (!err) {
-              msg = 'Writing: ' + body.firstName + ' ' + body.lastName;
-            } else {
-              msg = 'ERROR: ' + err;
+            user = new UserData({
+              accessToken: access_token,
+              id: body.id,
+              firstName: body.firstName,
+              lastName: body.lastName,
+              companyName: first.company.name,
+              industry: body.industry,
+              position: first.title,
+              // homeLocation: body.homeLocation,
+              profilePicture: body.pictureUrl,
+            });
+            if (u) {
+              // overwrite if exists
+              user._id = u._id;
             }
-            console.log(msg);
-            res.send(String(body) + '\n' + msg);
+
+            user.save(function(err) {
+              var msg;
+              if (!err) {
+                msg = 'Writing: ' + body.firstName + ' ' + body.lastName;
+              } else {
+                msg = 'ERROR: ' + err;
+              }
+              console.log(msg);
+              res.send(String(body) + '\n' + msg);
+            });
+
           });
-*/
         }
         else {
           console.log(error);
