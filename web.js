@@ -131,7 +131,17 @@ app.get('/user/:user', function(req, res) {
   if (req.query.error) {
     res.send("Error: " + req.query.error_description);
   } else {
-    res.send(req.params.user);
+    UserData.findOne({id: req.params.user}, function(err, u) {
+      if (!err) {
+        if (u) {
+          res.send(String(u));
+        }
+      }
+      else {
+        console.log(err);
+      }
+      console.log(u);
+    });
   }
 });
 
