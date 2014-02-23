@@ -82,15 +82,16 @@ app.get('/return_user_data', function(req, res) {
         if (!error && response.statusCode == 200) {
           res.send(body);
           body = JSON.parse(body);
+          first = body.positions.values[0];
 
           user = new UserData({
             id: body.id,
             firstName: body.firstName,
             lastName: body.lastName,
-            companyName: body.companyName,
+            companyName: first.company.name,
             industry: body.industry,
-            position: body.position,
-            homeLocation: body.homeLocation,
+            position: first.title,
+            // homeLocation: body.homeLocation,
             profilePicture: body.pictureUrl,
           });
 
