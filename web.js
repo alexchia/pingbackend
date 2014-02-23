@@ -76,7 +76,7 @@ var getData = function(req, res, access_token) {
   if (req.query.error) {
     res.send("Error: " + req.query.error_description);
   } else {
-    var data_requests = "/v1/people/~:(id,firstName,lastName,email-address,picture-url,skills,positions,industry,num-connections)";
+    var data_requests = "/v1/people/~:(id,firstName,lastName,email-address,picture-urls::(original),skills,positions,industry,num-connections)";
     var format = "json";
     console.log("retrieving data from linkedin");
     var linkedin_url = "https://api.linkedin.com" + data_requests + "?"
@@ -91,6 +91,7 @@ var getData = function(req, res, access_token) {
           first = body.positions.values[0];
 
           console.log("finding userdata");
+          console.log(body);
           UserData.findOne({id: body.id}, function(err, u) {
             console.log(u);
 
@@ -104,12 +105,13 @@ var getData = function(req, res, access_token) {
                 industry: body.industry,
                 position: first.title,
                 // homeLocation: body.homeLocation,
-                profilePicture: body.pictureUrl,
+                profilePicture: body.pictureUrls.values[0],
               });
             }
             else {
               user = u;
             }
+            user.profilePicture = body.pictureUrls.values[0];
 
             console.log(user);
             /*
@@ -150,7 +152,7 @@ app.get('/user/:user', function(req, res) {
     UserData.findOne({id: req.params.user}, function(err, u) {
       if (!err) {
         if (u) {
-          res.send(String(u));
+          res.json(u);
         }
       }
       else {
