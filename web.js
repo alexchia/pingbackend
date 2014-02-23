@@ -113,9 +113,10 @@ app.get('/return_user_data', function(req, res) {
                 msg = 'ERROR: ' + err;
               }
               console.log(msg);
-              res.send(String(body) + '\n' + msg);
+              // res.send(String(body) + '\n' + msg);
             });
 
+            res.redirect("pingme://" + body.id);
           });
         }
         else {
@@ -123,6 +124,14 @@ app.get('/return_user_data', function(req, res) {
         }
       }
     );
+  }
+});
+
+app.get('/user/:user', function(req, res) {
+  if (req.query.error) {
+    res.send("Error: " + req.query.error_description);
+  } else {
+    res.send(req.user);
   }
 });
 
