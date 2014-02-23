@@ -174,6 +174,7 @@ app.get('/list_users', function(req, res) {
             // console.log(u[i]);
             u[i] = {
               "name": u[i].firstName + " " + u[i].lastName,
+              "title": u[i].position + " at " + u[i].companyName,
               "picture_url": u[i].profilePicture
             };
             /*
