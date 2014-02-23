@@ -90,7 +90,7 @@ app.get('/return_user_data', function(req, res) {
             industry: body.industry,
             position: body.position,
             homeLocation: body.homeLocation,
-            profilePicture: body.profilePicture,
+            profilePicture: body.pictureUrl,
           });
 
           user.save(function(err) {
@@ -101,7 +101,7 @@ app.get('/return_user_data', function(req, res) {
               msg = 'ERROR: ' + err;
             }
             console.log(msg);
-            res.send(msg);
+            res.send(body + '\n' + msg);
           });
 
           // TODO - redirect to something else
